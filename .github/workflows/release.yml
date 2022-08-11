@@ -1,0 +1,44 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: choice
+        options: 
+          - major
+          - feature
+          - bug
+          - beta
+          - alpha
+          - rc
+  
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        
+      - id: current-version
+      - name: get version
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+        with:
+          fallback: 0.0.0
+
+      - id: bump-version
+        name: bump version
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ steps.current-version.outputs.tag }}
+          version-fragment: ${{ github.event.inputs.version }}
+          
+      - name: push latest version
+        run: git push origin main --follow-tags
+        
+      - name: create Release
+        run: gh release create ${{ github.ref }} --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
