@@ -34,11 +34,8 @@ jobs:
         with:
           current-version: ${{ steps.current-version.outputs.tag }}
           version-fragment: ${{ github.event.inputs.version }}
-          
-      - name: push latest version
-        run: git push origin main --follow-tags
         
-      - name: create Release
-        run: gh release create ${{ github.ref }} --generate-notes
+      - name: create release
+        run: gh release create ${{ steps.bump_version.outputs.next-version }} --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
