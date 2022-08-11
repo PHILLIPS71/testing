@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v3
         
       - id: current-version
-      - name: get version
+        name: get version
         uses: WyriHaximus/github-action-get-previous-tag@v1
         with:
           fallback: 0.0.0
