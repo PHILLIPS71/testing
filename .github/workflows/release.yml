@@ -36,6 +36,6 @@ jobs:
           version-fragment: ${{ github.event.inputs.version }}
         
       - name: create release
-        run: gh release create ${{ steps.bump_version.outputs.next-version }} --generate-notes
+        run: gh release create ${{ steps.bump-version.outputs.next-version }} --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
