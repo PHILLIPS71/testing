@@ -17,6 +17,35 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+        
+      - id: current-version
+        name: get version
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+        with:
+          fallback: 0.0.0
+
+      - id: bump-version
+        name: bump version
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ steps.current-version.outputs.tag }}
+          version-fragment: ${{ github.event.inputs.version }}
+        
+      - name: create release
+        run: gh release create ${{ steps.bump-version.outputs.next-version }} --target main --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  staging:
+    runs-on: ubuntu-latest
+    environment: staging
     
     steps:
       - name: checkout
