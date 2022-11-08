@@ -2,6 +2,7 @@ name: release
 
 on:
   push:
+    branches: [ main, develop ]
   
 jobs:
   init:
@@ -11,10 +12,18 @@ jobs:
         name: starting...
         run: |
           echo "Startng CI/CD of ${{ github.repository }}"
+          
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - id: test
+        name: testing...
+        run: |
+          echo "Testing of ${{ github.repository }}"
 
-  development:
+  deploy-development:
     if: ${{ github.ref == 'refs/head/develop' }}
-    needs: init
+    needs: test
     runs-on: ubuntu-latest
     environment:
       name: development
@@ -32,9 +41,9 @@ jobs:
         run: |
           echo "Deployed to Development"
 
-  production:
+  deploy-production:
     if: ${{ github.ref == 'refs/head/main' }}
-    needs: init
+    needs: test
     runs-on: ubuntu-latest
     environment:
       name: production
