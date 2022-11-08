@@ -14,10 +14,10 @@ on:
           - alpha
           - rc
   
-jobs:
-  release:
+jobs:          
+  staging:
     runs-on: ubuntu-latest
-    environment: production
+    environment: staging
     
     steps:
       - name: checkout
@@ -43,9 +43,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-  staging:
+  production:
     runs-on: ubuntu-latest
-    environment: staging
+    environment: production
     
     steps:
       - name: checkout
