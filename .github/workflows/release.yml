@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: development
-      url: develop.example.com
+      url: 'develop.example.com'
     permissions:
       contents: read
     
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: staging
-      url: staging.example.com
+      url: 'staging.example.com'
     permissions:
       contents: read
     
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: www.example.com
+      url: 'http://www.example.com'
     permissions:
       contents: write
     
