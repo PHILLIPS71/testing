@@ -32,6 +32,26 @@ jobs:
       - name: starting...
         run: |
           echo "Deployed to Development"
+     
+  deploy-staging:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: staging.example.com
+    permissions:
+      contents: read
+    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: starting...
+        run: |
+          echo "Deployed to Staging"
 
   deploy-production:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -48,21 +68,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-        
-      - id: current-version
-        name: get version
-        uses: WyriHaximus/github-action-get-previous-tag@v1
-        with:
-          fallback: 0.0.0
 
-      - id: bump-version
-        name: bump version
-        uses: christian-draeger/increment-semantic-version@1.0.2
-        with:
-          current-version: ${{ steps.current-version.outputs.tag }}
-          version-fragment: ${{ github.event.inputs.version }}
-        
-      - name: create release
-        run: gh release create ${{ steps.bump-version.outputs.next-version }} --target main --generate-notes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: starting...
+        run: |
+          echo "Deployed to Production"
