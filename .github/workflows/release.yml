@@ -41,7 +41,7 @@ jobs:
       name: production
       url: www.example.com
     permissions:
-      contents: read
+      contents: write
     
     steps:
       - name: checkout
